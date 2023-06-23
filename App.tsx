@@ -29,8 +29,8 @@ import {
 import { store } from './src/state/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from './src/state/screens/home';
-import { LoginScreen } from './src/state/screens/login';
+import { HomeScreen } from './src/screens/Home/Home';
+import { LoginScreen } from './src/screens/Login/Login';
 
 type SectionProps = PropsWithChildren<{
   title: string;
