@@ -8,8 +8,9 @@ import axios, { AxiosResponse } from "axios";
 import { config } from "../../config"
 import { styles } from "./Login.styles"
 import { useAPI } from "../../hooks/api"
-import { useDispatch } from "react-redux"
-import { login } from "../../state/slices/authSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { login } from "../../middleware/login"
+import { RootDispatch, RootState } from "../../state/store"
 
 export const LoginScreen = ({ navigation } : NativeStackScreenProps<RootStackParamList, 'Login'>) => {
     const [username, setUsername] = useState<string>("");
@@ -17,21 +18,13 @@ export const LoginScreen = ({ navigation } : NativeStackScreenProps<RootStackPar
     const [secure, setSecure] = useState<boolean>(true);
     const theme = useTheme();
     const [inputError, setError] = useState<string | null>(null);
-    const { data, execute, error, loading, succeeded } = useAPI({ url: "/auth/login", method: "post" });
-    const dispatch = useDispatch();
+    const dispatch: RootDispatch = useDispatch();
+    const { loading, error, token } = useSelector((state: RootState) => state.auth)
 
     useEffect(() => {
-        if (succeeded) {
-            dispatch(login(data.token))
-            setError(null);
-            setUsername("");
-            setPassword("");
-            navigation.navigate("Home");
-        }
-        else if(error) {
-            setError("Incorrect credentials. Please try again.");
-        }
-    }, [data]);
+        if(token)
+            navigation.navigate("Home")
+    }, [token])
 
     /**
      * Submit the input data and make a login request to the server
@@ -40,7 +33,7 @@ export const LoginScreen = ({ navigation } : NativeStackScreenProps<RootStackPar
      */
     const submitForm = async () => {
         if (username !== "" && password !== "") {
-            execute({ username, password });
+            dispatch(login({ username, password }));
         }
         else {
             setError("Please enter your username and password");
@@ -108,7 +101,7 @@ export const LoginScreen = ({ navigation } : NativeStackScreenProps<RootStackPar
             <Text
                 style={[styles.error, {color: theme.colors.error}]}
             >
-                {inputError}
+                {inputError || error}
             </Text>
         </SafeAreaView>
     )

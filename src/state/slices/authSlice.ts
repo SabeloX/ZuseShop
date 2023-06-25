@@ -1,23 +1,38 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { login } from "../../middleware/login";
 
-const initialAuthState = {
+type AuthReducerType = {
+    loading: boolean;
+    error: null | string;
+    token: string | null;
+}
+
+const initialAuthState: AuthReducerType = {
     loading: false,
     error: null,
-    success: false,
     token: null,
-    user: {}
 }
 
 const authSlice = createSlice({
     name: "auth",
     initialState: initialAuthState,
-    reducers: {
-        login: (state, action) => {
-            state.token = action.payload
-        }
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(login.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(login.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                state.token = action.payload;
+            })
+            .addCase(login.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
     }
 });
-
-export const login = authSlice.actions.login;
 
 export default authSlice.reducer;
