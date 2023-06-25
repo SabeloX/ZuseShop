@@ -10,6 +10,7 @@ type ProductReducerType = {
     products: ProductType[];
     categories: string[];
     category: string;
+    product: ProductType | null;
 }
 
 const initialProductsState: ProductReducerType = {
@@ -18,7 +19,8 @@ const initialProductsState: ProductReducerType = {
     error: null,
     categories: [],
     products: [],
-    category: "all"
+    category: "all",
+    product: null
 }
 
 const productsSlice = createSlice({
@@ -26,7 +28,10 @@ const productsSlice = createSlice({
     initialState: initialProductsState,
     reducers: {
         setCategory: (state, action) => {
-            state.category = action.payload
+            state.category = action.payload;
+        },
+        setProduct: (state, action) => {
+            state.product = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -60,6 +65,6 @@ const productsSlice = createSlice({
     }
 });
 
-export const { setCategory } = productsSlice.actions;
+export const { setCategory, setProduct } = productsSlice.actions;
 
 export default productsSlice.reducer;

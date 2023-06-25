@@ -1,6 +1,11 @@
 import { View } from "react-native"
 import { styles } from "./Products.styles"
 import { Avatar, Card, Text, useTheme } from "react-native-paper";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../App";
+import { RootDispatch } from "../../state/store";
+import { setProduct } from "../../state/slices/productsSlice";
+import { formatPrice } from "../../utils/priceFormat";
 
 export type ProductType = {
     id: number;
@@ -13,12 +18,20 @@ export type ProductType = {
 
 type ProductProps = {
     product: ProductType;
+    navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
+    dispatch: RootDispatch;
 }
 
-export const Product = ({ product }: ProductProps) => {
+export const Product = ({ product, navigation, dispatch }: ProductProps) => {
     const theme = useTheme();
     return (
-        <Card mode="elevated">
+        <Card
+            mode="elevated"
+            onPress={() => {
+                dispatch(setProduct(product));
+                navigation.navigate("ProductDetails");
+            }}
+        >
             <Card.Cover resizeMode="contain" source={{ uri: product.image}}/>
             <Card.Title title={product.title} titleVariant="titleMedium" />
             <Card.Content>
@@ -26,7 +39,7 @@ export const Product = ({ product }: ProductProps) => {
                     style={{ color: theme.colors.primary }}
                     variant="headlineMedium"
                 >
-                    R{Math.round(parseFloat(product.price) * 18.75).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    { formatPrice(product.price) }
                 </Text>
             </Card.Content>
         </Card>

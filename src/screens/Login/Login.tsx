@@ -1,16 +1,13 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { ChangeEvent, useEffect, useState } from "react"
-import { StyleSheet, View } from "react-native"
-import { Button, Card, IconButton, Text, TextInput, useTheme } from "react-native-paper"
+import { useState, useEffect } from "react"
+import { View } from "react-native"
+import { Button, IconButton, Text, TextInput, useTheme } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { RootStackParamList } from "../../../App"
-import axios, { AxiosResponse } from "axios";
-import { config } from "../../config"
-import { styles } from "./Login.styles"
-import { useAPI } from "../../hooks/api"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../../middleware/login"
 import { RootDispatch, RootState } from "../../state/store"
+import { styles } from "./Login.styles"
 
 export const LoginScreen = ({ navigation } : NativeStackScreenProps<RootStackParamList, 'Login'>) => {
     const [username, setUsername] = useState<string>("");
@@ -48,13 +45,25 @@ export const LoginScreen = ({ navigation } : NativeStackScreenProps<RootStackPar
             ]}
         >
             <View
-                style={styles.backButton}
+                style={[styles.backButton, { gap: 20}]}
             >
                 <IconButton
+                    size={35}
                     icon="arrow-left"
+                    style={{
+                        backgroundColor: theme.colors.primary,
+                    }}
+                    iconColor={theme.colors.onPrimary}
                     onPress={() => navigation.navigate("Home")}
                 />
-                <Text>Go back home</Text>
+                <Text
+                    variant="titleMedium"
+                    style={{
+                    color: theme.colors.primary
+                    }}
+                >
+                    Go back home
+                </Text>
             </View>
             <Text
                 variant="headlineMedium"

@@ -1,6 +1,5 @@
-import { NavigationAction } from "@react-navigation/native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { ActivityIndicator, Appbar, Button, Text, useTheme } from "react-native-paper"
+import { ActivityIndicator, Button, Text, useTheme } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { RootStackParamList } from "../../../App"
 import { useDispatch, useSelector } from "react-redux"
@@ -45,10 +44,14 @@ export const HomeScreen = ({ navigation }: NativeStackScreenProps<RootStackParam
                     justifyContent: "space-between"
                 }}
             >
-                <Text variant="displayMedium">ZuseShop</Text>
+                <Text variant="displaySmall">ZuseShop</Text>
                 {
                     token ?
-                        <Button>Add new product</Button> :
+                        <Button
+                            mode="contained"
+                        >
+                            Add new product
+                        </Button> :
                         <Button
                             mode="contained"
                             onPress={() => navigation.navigate("Login")}
@@ -58,7 +61,7 @@ export const HomeScreen = ({ navigation }: NativeStackScreenProps<RootStackParam
                 }
             </View>
             <CategoryList categories={categories}/>
-            <ProductList products={products} />
+            <ProductList dispatch={dispatch} navigation={navigation} products={products} />
         </SafeAreaView>
     )
 }
