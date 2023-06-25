@@ -4,7 +4,7 @@ import axios from "axios";
 
 export type APIType = {
     url: string;
-    method: "POST" | "GET";
+    method: "post" | "get";
 }
 
 /**
@@ -14,20 +14,21 @@ export type APIType = {
  */
 export const useAPI = ({ url, method } : APIType) => {
     const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<boolean>(false);
-    const [data, setData] = useState<any>();
+    const [error, setError] = useState<any>(null);
+    const [data, setData] = useState<any>(null);
     const [succeeded, setSucceeded] = useState<boolean>(false);
 
     // Make an API request using axios
     const execute = async (inputData?: any) => {
         try {
             setLoading(true);
-            const response = await axios.post(config.domain + url, inputData)
+            const response = await ( method === "post" ? axios.post(config.domain + url, inputData) : axios.get(config.domain + url))
             setData(response.data);
+            setError(null);
             setSucceeded(true);
         }
         catch (error) {
-            setError(true);
+            setError(error);
             setLoading(false);
             setSucceeded(false);
         }

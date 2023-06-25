@@ -17,7 +17,7 @@ export const LoginScreen = ({ navigation } : NativeStackScreenProps<RootStackPar
     const [secure, setSecure] = useState<boolean>(true);
     const theme = useTheme();
     const [inputError, setError] = useState<string | null>(null);
-    const { data, execute, error, loading, succeeded } = useAPI({ url: "/auth/login", method: "POST" });
+    const { data, execute, error, loading, succeeded } = useAPI({ url: "/auth/login", method: "post" });
     const dispatch = useDispatch();
 
     useEffect(() => {
