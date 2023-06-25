@@ -19,8 +19,9 @@ export const HomeScreen = ({ navigation }: NativeStackScreenProps<RootStackParam
     const theme = useTheme();
   
     useEffect(() => {
-        dispatch(fetchCategoies());
-        dispatch(fetchProducts());
+        if(categories.length !== 0 && products.length !== 0)
+            dispatch(fetchCategoies());
+            dispatch(fetchProducts());
     }, []);
     useEffect(() => { console.log(categories, error) }, [categories, error]);
     if (loadingCategories || loadingProducts) 

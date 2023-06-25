@@ -5,6 +5,7 @@ import { Avatar, Card, IconButton, Text, useTheme } from "react-native-paper";
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import { formatPrice } from "../../utils/priceFormat";
+import { Header } from "../../components/Header";
 
 export const ProductDetails = ({ navigation }: NativeStackScreenProps<RootStackParamList, "ProductDetails">) => {
     const { product } = useSelector((state: RootState) => state.products)
@@ -21,30 +22,10 @@ export const ProductDetails = ({ navigation }: NativeStackScreenProps<RootStackP
                 flex: 1
             }}
         >
-            <View
-                style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 10,
-                    backgroundColor: theme.colors.secondary,
-                    padding: 10
-                }}
-            >
-                <IconButton
-                    size={25}
-                    icon="arrow-left"
-                    iconColor={theme.colors.onSecondary}
-                    onPress={() => navigation.navigate("Home")}
-                />
-                <Text
-                    variant="headlineLarge"
-                    style={{
-                        color: theme.colors.onSecondary
-                    }}
-                >
-                    Details
-                </Text>
-            </View>
+            <Header
+                navigation={navigation}
+                heading="Details"
+            />
             <ScrollView>
                 <View
                     style={{
