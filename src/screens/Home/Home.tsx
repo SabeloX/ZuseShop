@@ -4,46 +4,27 @@ import { ActivityIndicator, Appbar, Button, Text, useTheme } from "react-native-
 import { SafeAreaView } from "react-native-safe-area-context"
 import { RootStackParamList } from "../../../App"
 import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../state/store"
+import { RootDispatch, RootState } from "../../state/store"
 import { ProductList } from "../../components/products/ProductList"
-import { useAPI } from "../../hooks/api"
-import { config } from "../../config"
 import { useEffect } from "react"
-import { getCategories, getProducts } from "../../state/slices/productsSlice"
 import { styles } from "./Home.styles"
 import { CategoryList } from "../../components/categories/CategoryList"
 import { View } from "react-native"
+import { fetchCategoies } from "../../middleware/fetchCategories"
+import { fetchProducts } from "../../middleware/fetchProducts"
 
 export const HomeScreen = ({ navigation }: NativeStackScreenProps<RootStackParamList, 'Home'>) => {
     const token = useSelector((state: RootState) => state.auth.token);
-    const { categories, products } = useSelector((state: RootState) => state.products)
-    const categoriesAPI = useAPI({ url: `/products/categories`, method: "get" });
-    const productsAPI = useAPI({ url: `/products`, method: "get" });
-    const dispatch = useDispatch();
+    const { categories, products, loadingCategories, loadingProducts, error } = useSelector((state: RootState) => state.products)
+    const dispatch: RootDispatch = useDispatch();
     const theme = useTheme();
   
     useEffect(() => {
-      categoriesAPI.execute();
-      productsAPI.execute();
+        dispatch(fetchCategoies());
+        dispatch(fetchProducts());
     }, []);
-    useEffect(() => {
-        if (categoriesAPI.succeeded) {
-            console.log("Category Success: ",categoriesAPI.data)
-            dispatch(getCategories(categoriesAPI.data));
-        }
-        else if (categoriesAPI.error !== null) {
-            console.log("Category failed: ",categoriesAPI.error)
-        }
-    }, [categoriesAPI.data]);
-    useEffect(() => {
-        if (productsAPI.succeeded) {
-            dispatch(getProducts(productsAPI.data));
-            console.log("Products success: ", productsAPI.data)
-        }
-        else if (productsAPI.error !== null) {
-        }
-    }, [productsAPI.data]);
-    if (categoriesAPI.loading && productsAPI.loading) 
+    useEffect(() => { console.log(categories, error) }, [categories, error]);
+    if (loadingCategories || loadingProducts) 
         <SafeAreaView
             style={styles.container}
         >
@@ -58,10 +39,23 @@ export const HomeScreen = ({ navigation }: NativeStackScreenProps<RootStackParam
         >
             <View
                 style={{
+                    marginTop: 10,
+                    flexDirection: "row",
                     alignItems: "center",
-                    marginTop: 10
-                }}>
-                <Text variant="displayLarge">ZuseShop</Text>
+                    justifyContent: "space-between"
+                }}
+            >
+                <Text variant="displayMedium">ZuseShop</Text>
+                {
+                    token ?
+                        <Button>Add new product</Button> :
+                        <Button
+                            mode="contained"
+                            onPress={() => navigation.navigate("Login")}
+                        >
+                            Login
+                        </Button>
+                }
             </View>
             <CategoryList categories={categories}/>
             <ProductList products={products} />
