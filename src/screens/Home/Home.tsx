@@ -14,7 +14,7 @@ import { fetchProducts } from "../../middleware/fetchProducts"
 
 export const HomeScreen = ({ navigation }: NativeStackScreenProps<RootStackParamList, 'Home'>) => {
     const token = useSelector((state: RootState) => state.auth.token);
-    const { categories, products, loadingCategories, loadingProducts, error } = useSelector((state: RootState) => state.products)
+    const { categories, products, loadingCategories, loadingProducts, categoryError, productError } = useSelector((state: RootState) => state.products)
     const dispatch: RootDispatch = useDispatch();
     const theme = useTheme();
   
@@ -23,7 +23,7 @@ export const HomeScreen = ({ navigation }: NativeStackScreenProps<RootStackParam
             dispatch(fetchCategoies());
             dispatch(fetchProducts());
     }, []);
-    useEffect(() => { console.log(categories, error) }, [categories, error]);
+    useEffect(() => { console.log(categories, categoryError) }, [categories, categoryError]);
     if (loadingCategories || loadingProducts) 
         <SafeAreaView
             style={styles.container}
@@ -50,6 +50,7 @@ export const HomeScreen = ({ navigation }: NativeStackScreenProps<RootStackParam
                     token ?
                         <Button
                             mode="contained"
+                            onPress={() => navigation.navigate("ProductCreation")}
                         >
                             Add new product
                         </Button> :

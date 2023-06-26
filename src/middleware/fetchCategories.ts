@@ -5,7 +5,8 @@ import { config } from "../config";
 export const fetchCategoies = createAsyncThunk("products/getCategories", async (_, { rejectWithValue }) => {
     try {
         const response = await axios.get(`${config.domain}/products/categories`);
-        return response.data
+        const data = response.data;
+        return data;
     }
     catch (error: any) {
         return rejectWithValue(error.message);

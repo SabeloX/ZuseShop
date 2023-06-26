@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { login } from "../../middleware/login"
 import { RootDispatch, RootState } from "../../state/store"
 import { styles } from "./Login.styles"
+import { Header } from "../../components/Header"
+import { InputField } from "../../components/InputField"
 
 export const LoginScreen = ({ navigation } : NativeStackScreenProps<RootStackParamList, 'Login'>) => {
     const [username, setUsername] = useState<string>("");
@@ -39,79 +41,83 @@ export const LoginScreen = ({ navigation } : NativeStackScreenProps<RootStackPar
     
     return (
         <SafeAreaView
-            style={[
-                styles.container,
-                { backgroundColor: theme.colors.background }
-            ]}
+            style={{
+                backgroundColor: theme.colors.background,
+                flex: 1,
+            }}
         >
-            <View
-                style={[styles.backButton, { gap: 20}]}
-            >
-                <IconButton
-                    size={35}
-                    icon="arrow-left"
-                    style={{
-                        backgroundColor: theme.colors.primary,
-                    }}
-                    iconColor={theme.colors.onPrimary}
-                    onPress={() => navigation.navigate("Home")}
-                />
-                <Text
-                    variant="titleMedium"
-                    style={{
-                    color: theme.colors.primary
-                    }}
-                >
-                    Go back home
-                </Text>
-            </View>
-            <Text
-                variant="headlineMedium"
+            <Header
+                heading="Go back home"
+                navigation={navigation}
+            />
+            <SafeAreaView
                 style={[
-                    styles.heading,
+                    styles.container,
                     {
-                        fontSize: theme.fonts.headlineLarge.fontSize,
-                        fontFamily: theme.fonts.headlineLarge.fontFamily,
-                        color: theme.colors.primary
+                        backgroundColor: theme.colors.background,
+                        flex: 1
                     }
                 ]}
             >
-                Login
-            </Text>
-            <TextInput
-                label="Username"
-                value={username}
-                onChangeText={(newUsername) => setUsername(newUsername)}
-                mode="flat"
-                style={[styles.input, {backgroundColor: theme.colors.background, color: theme.colors.primary}]}
-                underlineColor="transparent"
-                right={<TextInput.Icon icon="account" />}
-                placeholderTextColor={theme.colors.primary}
-                error={inputError !== null}
-            />
-            <TextInput
-                label="Password"
-                value={password}
-                onChangeText={(newPassword) => setPassword(newPassword)}
-                mode="flat"
-                style={[styles.input, {backgroundColor: theme.colors.background, color: theme.colors.primary}]}
-                underlineColor="transparent"
-                secureTextEntry={secure}
-                right={<TextInput.Icon onPress={() => setSecure(!secure)} icon="eye" />}
-                error={inputError !== null}
-            />
-            <Button
-                mode="contained"
-                loading={loading}
-                onPress={submitForm}
-            >
-                Submit
-            </Button>
-            <Text
-                style={[styles.error, {color: theme.colors.error}]}
-            >
-                {inputError || error}
-            </Text>
+                <Text
+                    variant="headlineMedium"
+                    style={[
+                        styles.heading,
+                        {
+                            fontSize: theme.fonts.headlineLarge.fontSize,
+                            fontFamily: theme.fonts.headlineLarge.fontFamily,
+                            color: theme.colors.primary
+                        }
+                    ]}
+                >
+                    Login
+                </Text>
+                <TextInput
+                    label="Username"
+                    value={username}
+                    onChangeText={(newUsername) => setUsername(newUsername)}
+                    mode="flat"
+                    style={{
+                        backgroundColor: theme.colors.background,
+                        color: theme.colors.primary,
+                        borderBottomWidth: 1
+                    }}
+                    underlineColor="transparent"
+                    right={<TextInput.Icon icon="account" />}
+                    placeholderTextColor={theme.colors.primary}
+                    error={inputError !== null}
+                />
+                <TextInput
+                    label="Password"
+                    value={password}
+                    onChangeText={(newPassword) => setPassword(newPassword)}
+                    mode="flat"
+                    style={{
+                        backgroundColor: theme.colors.background,
+                        color: theme.colors.primary,
+                        borderBottomWidth: 1
+                    }}
+                    underlineColor="transparent"
+                    secureTextEntry={secure}
+                    right={<TextInput.Icon onPress={() => setSecure(!secure)} icon="eye" />}
+                    error={inputError !== null}
+                />
+                <Button
+                    mode="contained"
+                    loading={loading}
+                    onPress={submitForm}
+                    style={{
+                        marginTop: 40
+                    }}
+                >
+                    Submit
+                </Button>
+                <Text
+                    style={[styles.error, {color: theme.colors.error}]}
+                >
+                    {inputError || error}
+                </Text>
+            </SafeAreaView>
         </SafeAreaView>
     )
 }

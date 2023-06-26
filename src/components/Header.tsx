@@ -1,14 +1,15 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { View } from "react-native"
+import { View, ViewStyle } from "react-native"
 import { IconButton, Text, useTheme } from "react-native-paper"
 import { RootStackParamList } from "../../App";
 
 type HeaderProps = {
     navigation: NativeStackNavigationProp<RootStackParamList, keyof RootStackParamList>;
     heading: string;
+    styles?: ViewStyle;
 }
 
-export const Header = ({ navigation, heading }: HeaderProps) => {
+export const Header = ({ navigation, heading, styles }: HeaderProps) => {
     const theme = useTheme();
     return (
         <View
@@ -17,7 +18,8 @@ export const Header = ({ navigation, heading }: HeaderProps) => {
                 alignItems: "center",
                 gap: 10,
                 backgroundColor: theme.colors.secondary,
-                padding: 10
+                padding: 10,
+                ...styles
             }}
             >
                 <IconButton

@@ -32,7 +32,11 @@ export const Product = ({ product, navigation, dispatch }: ProductProps) => {
                 navigation.navigate("ProductDetails");
             }}
         >
-            <Card.Cover resizeMode="contain" source={{ uri: product.image}}/>
+            {
+                // product.image === "" ?
+                //     <Avatar.Icon icon="gift"/> :
+                <Card.Cover resizeMode="contain" source={{ uri: product.image === "" ? "https://www.pngitem.com/pimgs/m/568-5680053_prod-placeholder-vector-product-icon-png-transparent-png.png" : product.image }} />
+            }
             <Card.Title title={product.title} titleVariant="titleMedium" />
             <Card.Content>
                 <Text

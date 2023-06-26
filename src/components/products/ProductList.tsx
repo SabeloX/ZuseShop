@@ -30,7 +30,7 @@ export const ProductList = ({ products, navigation, dispatch }: ProductListProps
                     products
                         .filter((product: ProductType) => (
                             product.category === currentCategory) || (currentCategory === "all")
-                        )
+                    ).sort((a, b) => { return b.id - a.id })
                         .map(product => (
                             <Product
                                 key={product.id}

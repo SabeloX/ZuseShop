@@ -7,12 +7,9 @@ export const styles = StyleSheet.create({
     },
     container: {
         justifyContent: "center",
-        flex: 1,
+        // flex: 1,
         padding: 20,
         gap: 50,
-    },
-    input: {
-        borderBottomWidth: 1,
     },
     error: {
         fontSize: 16,
