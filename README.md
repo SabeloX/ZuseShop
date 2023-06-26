@@ -10,6 +10,13 @@ This project uses a fake store api: https://fakestoreapi.com/docs for authentica
 
 ## Getting Started
 
+### Tools
+* React native
+* Redux toolkit
+* React navigation
+* React native paper
+* Axios
+
 ### Dependencies
 
 * Android studio
