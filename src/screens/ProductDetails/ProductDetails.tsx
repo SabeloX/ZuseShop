@@ -40,7 +40,7 @@ export const ProductDetails = ({ navigation }: NativeStackScreenProps<RootStackP
                         }}
                     >
                         <Card.Cover
-                            source={{ uri: product.image }}
+                            source={{ uri: product.image === "" ? "https://www.pngitem.com/pimgs/m/568-5680053_prod-placeholder-vector-product-icon-png-transparent-png.png" : product.image }}
                             resizeMode="contain"
                         />
                     </Card>

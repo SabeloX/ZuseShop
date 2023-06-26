@@ -14,13 +14,14 @@ import { fetchProducts } from "../../middleware/fetchProducts"
 
 export const HomeScreen = ({ navigation }: NativeStackScreenProps<RootStackParamList, 'Home'>) => {
     const token = useSelector((state: RootState) => state.auth.token);
-    const { categories, products, loadingCategories, loadingProducts, categoryError, productError } = useSelector((state: RootState) => state.products)
+    const { products, loadingProducts, productError } = useSelector((state: RootState) => state.products)
+    const { categories, loadingCategories, categoryError } = useSelector((state: RootState) => state.categories)
     const dispatch: RootDispatch = useDispatch();
     const theme = useTheme();
   
     useEffect(() => {
-        if(categories.length !== 0 && products.length !== 0)
-            dispatch(fetchCategoies());
+        dispatch(fetchCategoies());
+        if(products.length !== 0)
             dispatch(fetchProducts());
     }, []);
     useEffect(() => { console.log(categories, categoryError) }, [categories, categoryError]);
@@ -62,7 +63,7 @@ export const HomeScreen = ({ navigation }: NativeStackScreenProps<RootStackParam
                         </Button>
                 }
             </View>
-            <CategoryList categories={categories}/>
+            <CategoryList categories={categories} />
             <ProductList dispatch={dispatch} navigation={navigation} products={products} />
         </SafeAreaView>
     )
